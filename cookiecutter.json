@@ -1,0 +1,10 @@
+{
+    "plugin_name": "dummy",
+    "plugin_package_name": "{{cookiecutter.plugin_name | replace(' ', '-') |replace('_', '-')}}",
+    "plugin_slug": "{{cookiecutter.plugin_package_name | replace('-', '_')}}",
+    "short_description": "a short description",
+    "project_url": "Url of the project if any",
+    "author_name": "Your Name",
+    "author_email": "your@e.mail",
+    "tartiflette_version": "0.11.1"
+}
