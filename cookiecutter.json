@@ -1,11 +1,22 @@
 {
-    "plugin_name": "dummy",
-    "plugin_package_name": "{{cookiecutter.plugin_name | replace(' ', '-') |replace('_', '-')}}",
-    "plugin_slug": "{{cookiecutter.plugin_package_name | replace('-', '_')}}",
-    "short_description": "a short description",
-    "project_url": "Url of the project if any",
-    "author_name": "Your Name",
-    "author_email": "your@e.mail",
-    "tartiflette_version": "1.1.0",
-    "license": ["MIT", "BSD-3", "GNU GPL v3.0", "Apache Software License 2.0", "Other"]
+  "author_name": "Your full name",
+  "author_email": "your@email.com",
+  "author_github_username": "your-github-username",
+  "plugin_name": "Your Plugin Name",
+  "repository_name": "tartiflette-plugin-{{ cookiecutter.plugin_name.lower()|replace(' ', '-')|replace('_', '-')|replace('.', '-')|trim() }}",
+  "plugin_package_name": "{{ cookiecutter.repository_name }}",
+  "plugin_slug": "{{ cookiecutter.plugin_package_name|replace('-', '_') }}",
+  "plugin_short_description": "Your plugin description here",
+  "plugin_version": "0.1.0",
+  "plugin_tartiflette_version": ">=1.0.0,<2.0.0",
+  "use_docker": "n",
+  "create_author_file": "y",
+  "open_source_license": [
+    "MIT license",
+    "BSD license",
+    "ISC license",
+    "GNU General Public License v3",
+    "Apache Software License 2.0",
+    "Not open source"
+  ]
 }

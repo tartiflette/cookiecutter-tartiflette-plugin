@@ -1,0 +1,25 @@
+version: "3"
+services:
+  format-imports:
+    volumes:
+      - .:/usr/src/app
+
+  format:
+    volumes:
+      - .:/usr/src/app
+
+  style:
+    volumes:
+      - .:/usr/src/app
+
+  complexity:
+    volumes:
+      - .:/usr/src/app
+
+  security-sast:
+    volumes:
+      - .:/usr/src/app
+
+networks:
+  ns:
+    driver: bridge

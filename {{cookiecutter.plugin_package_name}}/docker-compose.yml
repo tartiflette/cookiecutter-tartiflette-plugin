@@ -1,0 +1,56 @@
+version: "3"
+services:
+  plugin: &plugin
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - ns
+
+  plugin-test: &plugin-test
+    <<: *plugin
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        target: .[test]
+
+  format-imports:
+    <<: *plugin-test
+    command: isort -rc {{ cookiecutter.plugin_slug }}/. tests/. setup.py
+
+  format:
+    <<: *plugin-test
+    command: black -l 79 --target-version py36 {{ cookiecutter.plugin_slug }} tests setup.py
+
+  check-imports:
+    <<: *plugin-test
+    command: isort --check-only -rc {{ cookiecutter.plugin_slug }}/. tests/. setup.py
+
+  check-format:
+    <<: *plugin-test
+    command: black -l 79 --target-version py36 --check {{ cookiecutter.plugin_slug }} tests setup.py
+
+  style:
+    <<: *plugin-test
+    command: pylint --reports=n --rcfile=pylintrc {{ cookiecutter.plugin_slug }} tests setup.py
+
+  complexity:
+    <<: *plugin-test
+    command: xenon --max-absolute B --max-modules B --max-average A {{ cookiecutter.plugin_slug }},setup.py
+
+  test-unit:
+    <<: *plugin-test
+    command: py.test -s tests/unit -vvvvvv --junitxml=reports/report_unit_tests.xml --cov . --cov-config .coveragerc --cov-report term-missing --cov-report xml:reports/coverage_unit.xml
+    volumes:
+      - ./reports:/usr/src/app/reports
+
+  test-functional:
+    <<: *plugin-test
+    command: py.test -s tests/functional -vvvvvv --junitxml=reports/report_func_tests.xml --cov . --cov-config .coveragerc --cov-report term-missing --cov-report xml:reports/coverage_func.xml
+    volumes:
+      - ./reports:/usr/src/app/reports
+
+  security-sast:
+    <<: *plugin-test
+    command: bandit -r {{ cookiecutter.plugin_slug }} tests setup.py
