@@ -18,10 +18,14 @@ services:
   format-imports:
     <<: *plugin-test
     command: isort -rc {{ cookiecutter.plugin_slug }}/. tests/. setup.py
+    volumes:
+      - .:/usr/src/app
 
   format:
     <<: *plugin-test
     command: black -l 79 --target-version py36 {{ cookiecutter.plugin_slug }} tests setup.py
+    volumes:
+      - .:/usr/src/app
 
   check-imports:
     <<: *plugin-test
@@ -34,10 +38,14 @@ services:
   style:
     <<: *plugin-test
     command: pylint --reports=n --rcfile=pylintrc {{ cookiecutter.plugin_slug }} tests setup.py
+    volumes:
+      - .:/usr/src/app
 
   complexity:
     <<: *plugin-test
     command: xenon --max-absolute B --max-modules B --max-average A {{ cookiecutter.plugin_slug }},setup.py
+    volumes:
+      - .:/usr/src/app
 
   test-unit:
     <<: *plugin-test
@@ -54,3 +62,9 @@ services:
   security-sast:
     <<: *plugin-test
     command: bandit -r {{ cookiecutter.plugin_slug }} tests setup.py
+    volumes:
+      - .:/usr/src/app
+
+networks:
+  ns:
+    driver: bridge
