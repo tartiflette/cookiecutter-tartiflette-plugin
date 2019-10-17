@@ -7,7 +7,7 @@ update_configs:
       - "{{cookiecutter.author_github_username}}"
     default_labels:
       - "dependencies"{% if cookiecutter.use_docker == "y" %}
-    - package_manager: "docker"
+  - package_manager: "docker"
     directory: "/"
     update_schedule: "weekly"
     default_reviewers:
