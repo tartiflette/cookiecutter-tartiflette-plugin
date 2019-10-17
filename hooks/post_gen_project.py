@@ -26,7 +26,6 @@ if __name__ == "__main__":
     if "{{ cookiecutter.use_docker }}" != "y":
         _remove_files([
             ".dockerignore",
-            "docker-compose.override.yml",
             "docker-compose.yml",
             "Dockerfile",
         ])
